@@ -9,7 +9,8 @@ import locale
 @st.cache_data
 def get_data():
     # Configura a string de conexão ao banco 'telemedicina'
-    engine = create_engine("postgresql+psycopg2://postgres:123456789@localhost:5432/telemedicina")
+    postgres_str = 'postgresql://postgres:123456789@localhost:5432/telemedicina'
+    engine = create_engine(postgres_str)
 
     # Consultar a tabela "recebimentos"
     query = "SELECT * FROM telemedicina.recebimentos" 
