@@ -5,17 +5,23 @@ import matplotlib.pyplot as plt
 from cycler import cycler
 import locale
 
-# Conectar ao banco 'telemedicina'
-postgres_str = 'postgresql://postgres:123456789@localhost:5432/telemedicina'
-engine = create_engine(postgres_str)
+# Função para buscar dados do banco de dados
+@st.cache_data
+def get_data():
+    # String de conexão para o banco de dados telemedicina
+    postgres_str = 'postgresql://postgres:123456789@localhost:5432/telemedicina'
+    engine = create_engine(postgres_str)
 
-try:
-    # Usar uma consulta SQL para selecionar os dados da tabela 'recebimentos'
-    query = "SELECT * FROM telemedicina.recebimentos;"
-    df = pd.read_sql(query, engine)
+    # Consultar a tabela "recebimentos"
+    query = "SELECT * FROM public.recebimentos"  # Certifique-se de que a tabela está no esquema "public" ou ajuste o esquema conforme necessário
+    with engine.connect() as connection:
+        df = pd.read_sql(query, connection)
+    
+    return df
 
-    print("Dados carregados com sucesso!")
-    print(df.head())
+# Carregar os dados
+data = get_data()
 
-except Exception as e:
-    print(f"Erro ao consumir dados do banco de dados: {e}")
+# Exibir os dados no Streamlit
+st.write("Tabela de Recebimentos")
+st.dataframe(data)
