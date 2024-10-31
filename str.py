@@ -5,15 +5,14 @@ import matplotlib.pyplot as plt
 from cycler import cycler
 import locale
 
-# Função para buscar dados do banco de dados
+# Defina a função de conexão e obtenção de dados
 @st.cache_data
 def get_data():
-    # String de conexão para o banco de dados telemedicina
-    postgres_str = 'postgresql://postgres:123456789@localhost:5432/telemedicina'
-    engine = create_engine(postgres_str)
+    # Configura a string de conexão ao banco 'telemedicina'
+    engine = create_engine("postgresql+psycopg2://postgres:123456789@localhost:5432/telemedicina")
 
     # Consultar a tabela "recebimentos"
-    query = "SELECT * FROM public.recebimentos"  # Certifique-se de que a tabela está no esquema "public" ou ajuste o esquema conforme necessário
+    query = "SELECT * FROM telemedicina.recebimentos" 
     with engine.connect() as connection:
         df = pd.read_sql(query, connection)
     
