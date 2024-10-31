@@ -1,6 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine
-import streamlit as st
+# import streamlit as st
 import matplotlib.pyplot as plt
 from cycler import cycler
 import locale
@@ -23,5 +23,5 @@ def get_data():
 data = get_data()
 
 # Exibir os dados no Streamlit
-st.write("Tabela de Recebimentos")
-st.dataframe(data)
+# st.write("Tabela de Recebimentos")
+# st.dataframe(data)
